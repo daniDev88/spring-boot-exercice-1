@@ -38,4 +38,60 @@
 		</dependency>
 	</dependencies>
 
+		<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+
+				<configuration>
+					<generatorName>spring</generatorName>
+					<skip>${openapi.plugin.skip}</skip>
+
+					<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+
+					<typeMappings>
+						<typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
+					</typeMappings>
+					<importMappings>
+						<importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
+					</importMappings>
+
+					<configOptions>
+						<interfaceOnly>true</interfaceOnly>
+						<delegatePattern>true</delegatePattern>
+						<sourceFolder>src/java/main</sourceFolder>
+						<reactive>false</reactive>
+						<serializableModel>true</serializableModel>
+						<useBeanValidation>true</useBeanValidation>
+						<performBeanValidation>true</performBeanValidation>
+						<additionalProperties>
+							<additionalProperty>modelNamePrefix=Dto</additionalProperty>
+						</additionalProperties>
+						<useTags>true</useTags>
+					</configOptions>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>generate-rest-api-v1</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/rate-api.yaml</inputSpec>
+							<skip>false</skip>
+							<configOptions>
+								<apiPackage>es.virtualcave.application.rest.api</apiPackage>
+								<modelPackage>es.virtualcave.application.rest.model</modelPackage>
+								<invokerPackage>es.virtualcave.application.rest.invokers</invokerPackage>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Api contract for rate entity
+  description: Api contract to query rates
+tags:
+  - name: rate
+    description: Operations about rates
+servers:
+  - url: http://localhost:8080
+    description: local server
+paths:
+  /rates:
+    post:
+      summary: Create a new rate
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RateIn"
+      responses:
+        '201':
+          description: rate information create
+          headers:
+            X-Location:
+              schema:
+                type: string
+                format: uri
+              description: The URI to the newly created rate
+        '400':
+          description: Bad request. The request body was invalid or missing required fields.
+
+  /rates/{id}:
+    get:
+      summary: Retrieve a rate by ID
+      operationId: findByid
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rate to retrieve
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rate"
+        '400':
+          description: Bad request. The request body was invalid or missing required fields.
+        '404':
+          description: Rate not found
+    put:
+      summary: Update a rate price 
+      operationId: updateRatePrice
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rate to update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                price:
+                  type: number
+                  format: float
+              required:
+                - price
+      responses:
+        '204':
+          description: The rate was successfully updated
+        '400':
+          description: Bad request. The request body was invalid or missing required fields.
+        '404':
+          description: The specified rate was not found
+    delete:
+      summary: Delete a rate by ID
+      operationId: deletById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rate to delete
+      responses:
+        '204':
+          description: The rate was successfully deleted
+        '400':
+          description: Bad request. The request body was invalid or missing required fields.
+        '404':
+          description: The specified rate was not found
+
+  /rates/applicable:
+    get:
+      summary: Retrieve the applicable rate
+      operationId: getApplicable
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+          description: The date for which to retrieve the applicable rate
+        - in: query
+          name: productId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the product
+        - in: query
+          name: brandId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the brand
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Rate"
+        '400':
+          description: Bad request. The request body was invalid or missing required fields.
+        '404':
+          description: The specified rate was not found
+components:
+  schemas:
+    Rate:
+      type: object
+      properties:
+        id:
+          type: integer
+        branchId:
+          type: integer
+        productId:
+          type: integer
+        currencyCode:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        price:
+           type: number
+           format: float
+    RateIn:
+      type: object
+      properties:
+        branchId:
+          type: integer
+        productId:
+          type: integer
+        currencyCode:
+          type: string
+          maxLength: 3
+        startDate:
+          type: string
+          format: date
+          pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'          
+        endDate:
+          type: string
+          format: date
+          pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'
+        price:
+           type: number
+           format: float
+      required:
+        - branchId
+        - productId
+        - currencyCode
+        - startDate
+        - endDate
+        - price
