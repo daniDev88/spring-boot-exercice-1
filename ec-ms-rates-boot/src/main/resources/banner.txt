@@ -1,0 +1,4 @@
+Application Name:    ${AnsiColor.BLUE}${application.title}${AnsiColor.DEFAULT}
+Application Version: ${AnsiColor.BLUE}${application.version}
+${AnsiColor.GREEN}:: Spring Boot :: ${AnsiColor.RED}${spring-boot.formatted-version}
+${AnsiColor.DEFAULT}
