@@ -23,6 +23,7 @@
 			<artifactId>ec-ms-rates-domain</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
@@ -35,6 +36,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
@@ -43,7 +45,72 @@
 			<groupId>org.openapitools</groupId>
 			<artifactId>openapi-generator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
 
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+
+				<configuration>
+					<generatorName>spring</generatorName>
+					<skip>${openapi.plugin.skip}</skip>
+
+					<typeMappings>
+						<typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
+					</typeMappings>
+					<importMappings>
+						<importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
+					</importMappings>
+
+					<configOptions>
+						<interfaceOnly>true</interfaceOnly>
+						<delegatePattern>true</delegatePattern>
+						<sourceFolder>src/java/main</sourceFolder>
+						<reactive>false</reactive>
+						<serializableModel>true</serializableModel>
+						<useBeanValidation>true</useBeanValidation>
+						<performBeanValidation>true</performBeanValidation>
+						<additionalProperties>
+							<additionalProperty>modelNamePrefix=Dto</additionalProperty>
+						</additionalProperties>
+						<useTags>true</useTags>
+					</configOptions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-rest-api-v1</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/currency/currency-api.yaml</inputSpec>
+							<skip>false</skip>
+							<configOptions>
+								<apiPackage>es.virtualcave.infrastructure.currency.rest.api</apiPackage>
+								<modelPackage>es.virtualcave.infrastructure.currency.rest.model</modelPackage>
+								<invokerPackage>es.virtualcave.infrastructure.currency.rest.invokers</invokerPackage>
+							</configOptions>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
