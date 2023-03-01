@@ -1,12 +1,29 @@
 server:
   port: 8080
-spring:  
-  profiles:
-    active:
-    - local
+spring:
+  jmx:
+    enabled: false
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driverClassName: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:scripts/migration
+    user: ${FLYWAY_USER}
+    password: ${FLYWAY_PASSWORD}
+    mixed: true
+    validate-on-migrate: false
+    baseline-on-migrate: true
 logging:
   level:
     es:
       virtualcave: DEBUG
     org:
       springframework: INFO
+    springfox:
+      documentation: INFO
