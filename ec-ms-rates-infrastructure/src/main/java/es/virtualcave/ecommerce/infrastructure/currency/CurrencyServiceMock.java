@@ -8,10 +8,11 @@ import org.springframework.http.ResponseEntity;
 import es.virtualcave.infrastructure.currency.rest.api.CurrenciesApi;
 import es.virtualcave.infrastructure.currency.rest.model.CurrencyDto;
 
-public class CurrencyRestMockServiceImpl implements CurrenciesApi {
+public class CurrencyServiceMock implements CurrenciesApi {
 
-	private static final Map<String, CurrencyDto> CURRENCIES = Map.of("EUR", new CurrencyDto().code("EUR").symbol("€").decimals(2),
-			"USD", new CurrencyDto().code("USD").symbol("$").decimals(4));
+	private static final Map<String, CurrencyDto> CURRENCIES = Map.of("EUR",
+			new CurrencyDto().code("EUR").symbol("€").decimals(2), "USD",
+			new CurrencyDto().code("USD").symbol("$").decimals(4));
 
 	@Override
 	public ResponseEntity<CurrencyDto> getCurrencyByCode(String currencyCode) {
