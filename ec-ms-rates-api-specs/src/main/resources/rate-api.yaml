@@ -54,7 +54,7 @@ paths:
           description: Bad request. The request body was invalid or missing required fields.
         '404':
           description: Rate not found
-    put:
+    patch:
       summary: Update a rate price 
       operationId: updateRatePrice
       parameters:
