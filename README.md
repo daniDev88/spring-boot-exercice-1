@@ -31,6 +31,12 @@ Proyecto Maven por módulos
 
 ## Cómo trabajar en localhost ##
 
+* Carpeta del proyecto:
+
+```bash
+mvn clean install
+```
+
 * Ir a a carpeta docker-compose y ejecutar:
 
 ```bash
