@@ -7,15 +7,15 @@ spring:
     database: POSTGRESQL
     show-sql: false
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=rates
+    username: postgres
+    password: postgres
     driverClassName: org.postgresql.Driver
   flyway:
     enabled: true
     locations: classpath:scripts/migration
-    user: ${FLYWAY_USER}
-    password: ${FLYWAY_PASSWORD}
+    user: postgres
+    password: postgres
     mixed: true
     validate-on-migrate: false
     baseline-on-migrate: true

@@ -82,6 +82,9 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/rate-api.yaml</inputSpec>
 							<skip>false</skip>
+							<typeMappings>
+				                <typeMapping>Float=java.math.BigDecimal</typeMapping>
+				            </typeMappings>
 							<configOptions>
 								<apiPackage>es.virtualcave.application.rest.api</apiPackage>
 								<modelPackage>es.virtualcave.application.rest.model</modelPackage>
