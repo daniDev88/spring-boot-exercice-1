@@ -25,7 +25,7 @@ public final class RateDbEntity implements Serializable{
 	private Long id;
 
 	@Column(name = "BRAND_ID")
-	private Long branchId;
+	private Long brandId;
 
 	@Column(name = "PRODUCT_ID")
 	private Long productId;
