@@ -4,13 +4,13 @@ info:
   title: Api contract for rate entity
   description: Api contract to query rates
 tags:
-  - name: rate
+  - name: Rate
     description: Operations about rates
 servers:
   - url: http://localhost:8080
     description: local server
 paths:
-  /rates:
+  /v1/rates:
     post:
       summary: Create a new rate
       operationId: create
@@ -31,7 +31,7 @@ paths:
         '400':
           description: Bad request. The request body was invalid or missing required fields.
 
-  /rates/{id}:
+  /v1/rates/{id}:
     get:
       summary: Retrieve a rate by ID
       operationId: findByid
@@ -40,6 +40,7 @@ paths:
           name: id
           schema:
             type: integer
+            format: int64
           required: true
           description: The ID of the rate to retrieve
       responses:
@@ -61,6 +62,7 @@ paths:
           name: id
           schema:
             type: integer
+            format: int64
           required: true
           description: The ID of the rate to update
       requestBody:
@@ -70,8 +72,8 @@ paths:
               type: object
               properties:
                 price:
-                  type: number
-                  format: float
+                  type: integer
+                  format: int32
               required:
                 - price
       responses:
@@ -89,6 +91,7 @@ paths:
           name: id
           schema:
             type: integer
+            format: int64
           required: true
           description: The ID of the rate to delete
       responses:
@@ -99,7 +102,7 @@ paths:
         '404':
           description: The specified rate was not found
 
-  /rates/applicable:
+  /v1/rates/applicable:
     get:
       summary: Retrieve the applicable rate
       operationId: getApplicable
@@ -115,12 +118,14 @@ paths:
           name: productId
           schema:
             type: integer
+            format: int64
           required: true
           description: The ID of the product
         - in: query
           name: brandId
           schema:
             type: integer
+            format: int64
           required: true
           description: The ID of the brand
       responses:
@@ -141,10 +146,13 @@ components:
       properties:
         id:
           type: integer
-        branchId:
+          format: int64
+        brandId:
           type: integer
+          format: int64
         productId:
           type: integer
+          format: int64
         currencyCode:
           type: string
         startDate:
@@ -156,29 +164,33 @@ components:
         price:
            type: number
            format: float
+        currencySymbol:
+           type: string
     RateIn:
       type: object
       properties:
-        branchId:
+        brandId:
           type: integer
+          format: int64
         productId:
           type: integer
+          format: int64
         currencyCode:
           type: string
           maxLength: 3
         startDate:
           type: string
           format: date
-          pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'          
+          example: '2022-05-31'
         endDate:
           type: string
           format: date
-          pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'
+          example: '2022-05-31'
         price:
            type: number
            format: float
       required:
-        - branchId
+        - brandId
         - productId
         - currencyCode
         - startDate
